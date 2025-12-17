@@ -173,7 +173,7 @@ class SmoothPet {
 
     // Main Body Oval
     ctx.beginPath();
-    ctx.ellipse(0, 0, 45, 80, 0, 0, Math.PI * 2);
+    ctx.ellipse(0, 0, 38, 85, 0, 0, Math.PI * 2); // Slimmer (38) and slightly longer (85)
 
     // Gradient for 3D feel
     const bodyGrad = ctx.createRadialGradient(-10, -10, 10, 0, 0, 80);
@@ -198,7 +198,7 @@ class SmoothPet {
     // --- 5. Neck & Head ---
     ctx.save();
     // Translate to top of body
-    ctx.translate(20, -40);
+    ctx.translate(20, -45); // Adjusted closer to new body shape
     ctx.rotate(-0.2);
 
     // Neck 
@@ -277,18 +277,18 @@ class SmoothPet {
     // --- 6. Front Legs (Flailing) ---
     const legWave = Math.sin(this.frame * 0.2) * 10;
 
-    // Far Front Leg
+    // Far Front Leg (Shoulder joint adjusted)
     ctx.save();
-    ctx.translate(20, -10);
+    ctx.translate(25, -15); // Moved down and forward (was 20, -10)
     ctx.rotate(-0.5 + legWave * 0.01);
-    this.drawLegShape(ctx, 12, 50, '#E0E0E0', true);
+    this.drawLegShape(ctx, 13, 55, '#E0E0E0', true); // Longer (55)
     ctx.restore();
 
     // Near Front Leg (Higher)
     ctx.save();
-    ctx.translate(30, -20);
+    ctx.translate(35, -25); // Moved down and forward (was 30, -20)
     ctx.rotate(-0.8 - legWave * 0.01);
-    this.drawLegShape(ctx, 13, 50, '#FFFFFF', true);
+    this.drawLegShape(ctx, 14, 55, '#FFFFFF', true); // Longer (55)
     ctx.restore();
   }
 
