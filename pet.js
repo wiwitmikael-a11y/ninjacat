@@ -16,7 +16,7 @@ class NinjaCatPet {
     this.vx = 0;
     this.vy = 0;
     this.direction = 1; // 1 = right, -1 = left
-    this.scale = 1.0;
+    this.scale = 0.5;
 
     // Animation
     this.frame = 0;
@@ -355,35 +355,38 @@ class NinjaCatPet {
   // === LEGS ===
   drawBackLegs() {
     const ctx = this.ctx;
+    const legWave = Math.sin(this.frame * 0.12) * 0.05;
 
-    // Far back leg (slightly darker)
+    // Far back leg (slightly darker) - adjusted position to connect with body
     ctx.save();
-    ctx.translate(-55, 50);
-    this.drawLeg(ctx, '#E8E8E8', 0.15);
+    ctx.translate(-35, 35);
+    ctx.rotate(-0.9 + legWave); // Match body rotation
+    this.drawLeg(ctx, '#E8E8E8', 0.15 + legWave);
     ctx.restore();
 
-    // Near back leg (supporting weight)
+    // Near back leg (supporting weight) - adjusted position
     ctx.save();
-    ctx.translate(-40, 60);
-    this.drawLeg(ctx, '#FFFFFF', 0.1);
+    ctx.translate(-20, 45);
+    ctx.rotate(-0.9 - legWave); // Match body rotation
+    this.drawLeg(ctx, '#FFFFFF', 0.1 - legWave);
     ctx.restore();
   }
 
   drawFrontLegs() {
     const ctx = this.ctx;
-    const legWave = Math.sin(this.frame * 0.15) * 0.1;
+    const legWave = Math.sin(this.frame * 0.15) * 0.15;
 
-    // Far front leg (raised)
+    // Far front leg (raised) - adjusted to connect with chest area
     ctx.save();
-    ctx.translate(20, -20);
-    ctx.rotate(-0.7 + legWave);
+    ctx.translate(25, -5);
+    ctx.rotate(-0.6 + legWave);
     this.drawRaisedLeg(ctx, '#E8E8E8');
     ctx.restore();
 
-    // Near front leg (more raised)
+    // Near front leg (more raised) - adjusted position
     ctx.save();
-    ctx.translate(35, -30);
-    ctx.rotate(-0.9 - legWave);
+    ctx.translate(40, -15);
+    ctx.rotate(-0.8 - legWave);
     this.drawRaisedLeg(ctx, '#FFFFFF');
     ctx.restore();
   }
