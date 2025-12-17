@@ -43,6 +43,18 @@
       <a href="#tokenomics">Stats</a>
       <a href="#community">Join</a>
     </div>
+
+    <!-- Header Price Ticker (Compact) -->
+    <div class="header-ticker" id="priceTicker">
+      <div class="ht-item">
+        <span class="ht-label">NINJACAT:</span>
+        <span class="ht-value" id="tickerPrice">Loading...</span>
+      </div>
+      <div class="ht-item ht-change" id="tickerChangeWrap">
+        <span class="ht-value" id="tickerChange">---</span>
+      </div>
+    </div>
+
     <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
   </nav>
 
@@ -87,25 +99,7 @@
         </a>
       </div>
 
-      <!-- Price Ticker Panel -->
-      <div class="price-ticker" id="priceTicker">
-        <div class="ticker-item">
-          <span class="ticker-label">Price</span>
-          <span class="ticker-value" id="tickerPrice">$0.00000847</span>
-        </div>
-        <div class="ticker-item ticker-change positive" id="tickerChangeWrap">
-          <span class="ticker-label">24h</span>
-          <span class="ticker-value" id="tickerChange">+42.69%</span>
-        </div>
-        <div class="ticker-item">
-          <span class="ticker-label">MCap</span>
-          <span class="ticker-value" id="tickerMcap">$8.47K</span>
-        </div>
-        <div class="ticker-item">
-          <span class="ticker-label">Vol</span>
-          <span class="ticker-value" id="tickerVolume">$2.1K</span>
-        </div>
-      </div>
+
     </div>
     <div class="hero-image">
       <img src="/ninjacat-hero.jpg" alt="NinjaCat riding fire breathing unicorn to the moon" class="ninja-main">

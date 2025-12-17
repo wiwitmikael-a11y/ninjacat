@@ -314,23 +314,27 @@ function setupPriceTicker() {
             changeWrap.className = 'ticker-item ticker-change ' + (isPositive ? 'positive' : 'negative');
 
             // Market Cap (FDV)
-            const mcap = pair.fdv;
-            if (mcap >= 1000000) {
-                mcapEl.textContent = '$' + (mcap / 1000000).toFixed(2) + 'M';
-            } else if (mcap >= 1000) {
-                mcapEl.textContent = '$' + (mcap / 1000).toFixed(2) + 'K';
-            } else {
-                mcapEl.textContent = '$' + mcap.toFixed(2);
+            if (mcapEl) {
+                const mcap = pair.fdv;
+                if (mcap >= 1000000) {
+                    mcapEl.textContent = '$' + (mcap / 1000000).toFixed(2) + 'M';
+                } else if (mcap >= 1000) {
+                    mcapEl.textContent = '$' + (mcap / 1000).toFixed(2) + 'K';
+                } else {
+                    mcapEl.textContent = '$' + mcap.toFixed(2);
+                }
             }
 
             // 24h Volume
-            const volume = pair.volume.h24;
-            if (volume >= 1000000) {
-                volumeEl.textContent = '$' + (volume / 1000000).toFixed(2) + 'M';
-            } else if (volume >= 1000) {
-                volumeEl.textContent = '$' + (volume / 1000).toFixed(2) + 'K';
-            } else {
-                volumeEl.textContent = '$' + volume.toFixed(2);
+            if (volumeEl) {
+                const volume = pair.volume.h24;
+                if (volume >= 1000000) {
+                    volumeEl.textContent = '$' + (volume / 1000000).toFixed(2) + 'M';
+                } else if (volume >= 1000) {
+                    volumeEl.textContent = '$' + (volume / 1000).toFixed(2) + 'K';
+                } else {
+                    volumeEl.textContent = '$' + volume.toFixed(2);
+                }
             }
 
         } catch (error) {

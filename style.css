@@ -1175,7 +1175,8 @@ img {
 }
 
 .chart-container {
-  max-width: 1200px;
+  max-width: 900px;
+  /* Reduced from 1200px */
   margin: 0 auto;
 }
 
@@ -1185,6 +1186,68 @@ img {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 0 30px rgba(168, 85, 247, 0.1);
+}
+
+/* ===== HEADER PRICE TICKER ===== */
+.header-ticker {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 6px 16px;
+  border-radius: 30px;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  margin-left: auto;
+  margin-right: 15px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+}
+
+.ht-item {
+  display: flex;
+  align-items: center;
+  font-family: monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ht-label {
+  color: var(--rainbow-cyan);
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+
+.ht-value {
+  color: white;
+}
+
+.ht-change {
+  padding: 2px 8px;
+  border-radius: 6px;
+  height: 24px;
+}
+
+.ticker-change.positive .ht-value,
+.ht-change .ht-value {
+  /* Reuse existing ticker colors but apply to header */
+}
+
+/* Handle colors dynamically via JS class, but simplify for header */
+.header-ticker .positive {
+  color: var(--rainbow-green);
+  background: rgba(74, 222, 128, 0.1);
+}
+
+.header-ticker .negative {
+  color: var(--rainbow-red);
+  background: rgba(244, 63, 94, 0.1);
+}
+
+@media (max-width: 768px) {
+  .header-ticker {
+    display: none;
+    /* Hide on mobile to save space */
+  }
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
