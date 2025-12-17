@@ -32,15 +32,14 @@ class VoxelPet {
   init() {
     this.canvas = document.createElement('canvas');
     this.canvas.id = 'voxelPet';
-    this.canvas.style.cssText = `
-position: fixed;
-top: 0;
-left: 0;
-width: 100 %;
-height: 100 %;
-pointer - events: none;
-z - index: 9998;
-`;
+    this.canvas.style.position = 'fixed';
+    this.canvas.style.top = '0';
+    this.canvas.style.left = '0';
+    this.canvas.style.width = '100%';
+    this.canvas.style.height = '100%';
+    this.canvas.style.pointerEvents = 'none';
+    this.canvas.style.zIndex = '9998';
+    
     document.body.appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d');
     
@@ -387,7 +386,6 @@ z - index: 9998;
         this.drawIsoBox(isoX, isoY, bw, bd, bh, p.color);
     });
     
-    this.ctx.restore();
     this.ctx.restore();
   }
 
