@@ -283,6 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Animate price ticker with random fluctuations
+// Animate price ticker with real data from DexScreener
 function setupPriceTicker() {
     const priceEl = document.getElementById('tickerPrice');
     const changeEl = document.getElementById('tickerChange');
@@ -292,37 +293,56 @@ function setupPriceTicker() {
 
     if (!priceEl) return;
 
-    let basePrice = 0.00000847;
-    let change24h = 42.69;
+    async function updateTicker() {
+        try {
+            const response = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${CONTRACT_ADDRESS}`);
+            const data = await response.json();
 
-    function updateTicker() {
-        // Random fluctuation
-        const fluctuation = (Math.random() - 0.5) * 0.00000002;
-        basePrice = Math.max(0.00000001, basePrice + fluctuation);
+            if (!data.pairs || data.pairs.length === 0) return;
 
-        // Update change occasionally
-        if (Math.random() > 0.95) {
-            change24h += (Math.random() - 0.45) * 5;
-            change24h = Math.max(-99, Math.min(999, change24h));
+            // Get the most liquid pair (usually the first one)
+            const pair = data.pairs[0];
+
+            // Price
+            const price = parseFloat(pair.priceUsd);
+            priceEl.textContent = '$' + price.toFixed(8); // 8 decimals for meme coins
+
+            // 24h Change
+            const change24h = pair.priceChange.h24;
+            const isPositive = change24h >= 0;
+            changeEl.textContent = (isPositive ? '+' : '') + change24h.toFixed(2) + '%';
+            changeWrap.className = 'ticker-item ticker-change ' + (isPositive ? 'positive' : 'negative');
+
+            // Market Cap (FDV)
+            const mcap = pair.fdv;
+            if (mcap >= 1000000) {
+                mcapEl.textContent = '$' + (mcap / 1000000).toFixed(2) + 'M';
+            } else if (mcap >= 1000) {
+                mcapEl.textContent = '$' + (mcap / 1000).toFixed(2) + 'K';
+            } else {
+                mcapEl.textContent = '$' + mcap.toFixed(2);
+            }
+
+            // 24h Volume
+            const volume = pair.volume.h24;
+            if (volume >= 1000000) {
+                volumeEl.textContent = '$' + (volume / 1000000).toFixed(2) + 'M';
+            } else if (volume >= 1000) {
+                volumeEl.textContent = '$' + (volume / 1000).toFixed(2) + 'K';
+            } else {
+                volumeEl.textContent = '$' + volume.toFixed(2);
+            }
+
+        } catch (error) {
+            console.warn('Failed to fetch price data:', error);
+            // Keep existing values or show placeholders if error
         }
-
-        // Format price
-        priceEl.textContent = '$' + basePrice.toFixed(8);
-
-        // Format change
-        const isPositive = change24h >= 0;
-        changeEl.textContent = (isPositive ? '+' : '') + change24h.toFixed(2) + '%';
-        changeWrap.className = 'ticker-item ticker-change ' + (isPositive ? 'positive' : 'negative');
-
-        // Update mcap and volume
-        const mcap = basePrice * 1000000000;
-        mcapEl.textContent = '$' + (mcap / 1000).toFixed(2) + 'K';
-        volumeEl.textContent = '$' + ((Math.random() * 5 + 1).toFixed(1)) + 'K';
     }
 
-    // Update every 2 seconds
+    // Initial update
     updateTicker();
-    setInterval(updateTicker, 2000);
+    // Update every 30 seconds
+    setInterval(updateTicker, 30000);
 }
 
 // Create audio toggle button

@@ -1166,6 +1166,27 @@ img {
   opacity: 1;
 }
 
+/* ===== CHART SECTION ===== */
+.chart-section {
+  padding: var(--space-xl) var(--space-md);
+  background: var(--bg-dark);
+  position: relative;
+  z-index: 10;
+}
+
+.chart-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.chart-wrapper {
+  background: rgba(15, 8, 32, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.1);
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 
 /* Tablet */

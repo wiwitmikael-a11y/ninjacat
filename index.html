@@ -113,6 +113,41 @@
     </div>
   </section>
 
+  <!-- Chart Section -->
+  <section class="chart-section" id="chart">
+    <div class="chart-container">
+      <h2 class="section-title">Live Chart 📈</h2>
+      <div class="chart-wrapper">
+        <style>
+          #dexscreener-embed {
+            position: relative;
+            width: 100%;
+            padding-bottom: 125%;
+          }
+
+          @media(min-width:1400px) {
+            #dexscreener-embed {
+              padding-bottom: 65%;
+            }
+          }
+
+          #dexscreener-embed iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border: 0;
+          }
+        </style>
+        <div id="dexscreener-embed">
+          <iframe src="https://dexscreener.com/solana/E4FDbGBgFmk8BRkmfkGK5wUr4YzSqUyfmFHtgdVvpump?embed=1&theme=dark"
+            frameborder="0"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- About Section -->
   <section class="about" id="about">
     <div class="section-container">

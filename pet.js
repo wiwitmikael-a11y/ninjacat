@@ -483,10 +483,20 @@ class SmoothPet {
 
 // Init
 const initPet = () => {
+  // Clean up NEW pet instance
   if (window.pet) {
     if (window.pet.canvas) window.pet.canvas.remove();
     window.pet.isActive = false;
+    if (window.pet.animationId) cancelAnimationFrame(window.pet.animationId);
   }
+  // Clean up OLD voxel pet instance (if remains from HMR)
+  if (window.voxelPet) {
+    if (window.voxelPet.canvas) window.voxelPet.canvas.remove();
+    window.voxelPet.isActive = false;
+    window.voxelPet = null;
+  }
+
+  console.log('🦄 Initializing SmoothPet...');
   window.pet = new SmoothPet();
 };
 
