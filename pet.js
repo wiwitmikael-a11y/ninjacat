@@ -143,89 +143,101 @@ class NinjaCatPet {
 
         // === UNICORN BODY (White, rearing pose) ===
 
-        // Back legs (on ground)
-        ctx.fillStyle = '#F0F0F0';
-        ctx.strokeStyle = '#DDD';
+        // Draw FRONT legs first (they're behind body visually)
+        ctx.fillStyle = '#E8E8E8';
+        ctx.strokeStyle = '#CCC';
         ctx.lineWidth = 2;
 
-        // Left back leg
+        // Left front leg (raised high in air)
         ctx.beginPath();
-        ctx.moveTo(-30, 40);
-        ctx.quadraticCurveTo(-40, 70, -35, 100 + this.legFrame);
-        ctx.quadraticCurveTo(-30, 105, -25, 100 + this.legFrame);
-        ctx.quadraticCurveTo(-20, 70, -20, 40);
-        ctx.fillStyle = '#F0F0F0';
+        ctx.moveTo(10, 10);
+        ctx.lineTo(-5, -40);
+        ctx.lineTo(5, -45);
+        ctx.lineTo(20, 10);
+        ctx.closePath();
         ctx.fill();
         ctx.stroke();
+        // Left front hoof
+        ctx.beginPath();
+        ctx.ellipse(0, -47, 8, 5, -0.3, 0, Math.PI * 2);
+        ctx.fillStyle = '#333';
+        ctx.fill();
 
-        // Right back leg
+        // Right front leg (raised high in air)
+        ctx.fillStyle = '#F0F0F0';
         ctx.beginPath();
-        ctx.moveTo(-50, 35);
-        ctx.quadraticCurveTo(-65, 65, -60, 95 - this.legFrame);
-        ctx.quadraticCurveTo(-55, 100, -50, 95 - this.legFrame);
-        ctx.quadraticCurveTo(-40, 65, -40, 35);
+        ctx.moveTo(25, 5);
+        ctx.lineTo(30, -50);
+        ctx.lineTo(40, -52);
+        ctx.lineTo(35, 5);
+        ctx.closePath();
         ctx.fill();
+        ctx.strokeStyle = '#DDD';
         ctx.stroke();
+        // Right front hoof
+        ctx.beginPath();
+        ctx.ellipse(35, -55, 8, 5, 0.2, 0, Math.PI * 2);
+        ctx.fillStyle = '#333';
+        ctx.fill();
 
         // Body (oval, tilted up for rearing)
         ctx.beginPath();
-        ctx.ellipse(0, 20, 45, 30, -0.3, 0, Math.PI * 2);
+        ctx.ellipse(0, 25, 50, 32, -0.25, 0, Math.PI * 2);
         ctx.fillStyle = '#FAFAFA';
         ctx.fill();
-        ctx.strokeStyle = '#E5E5E5';
+        ctx.strokeStyle = '#E0E0E0';
+        ctx.lineWidth = 2;
         ctx.stroke();
+
+        // Draw BACK legs after body (so they show in front)
+        ctx.fillStyle = '#F5F5F5';
+        ctx.strokeStyle = '#DDD';
+        ctx.lineWidth = 2;
+
+        // Left back leg (on ground)
+        ctx.beginPath();
+        ctx.moveTo(-20, 45);
+        ctx.lineTo(-30, 100 + this.legFrame);
+        ctx.lineTo(-18, 100 + this.legFrame);
+        ctx.lineTo(-10, 45);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        // Left back hoof
+        ctx.beginPath();
+        ctx.ellipse(-24, 103 + this.legFrame, 10, 6, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#333';
+        ctx.fill();
+
+        // Right back leg (on ground)
+        ctx.fillStyle = '#E8E8E8';
+        ctx.beginPath();
+        ctx.moveTo(-40, 40);
+        ctx.lineTo(-55, 95 - this.legFrame);
+        ctx.lineTo(-43, 95 - this.legFrame);
+        ctx.lineTo(-30, 40);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#CCC';
+        ctx.stroke();
+        // Right back hoof
+        ctx.beginPath();
+        ctx.ellipse(-49, 98 - this.legFrame, 10, 6, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#333';
+        ctx.fill();
 
         // Tail (flowing golden)
         const tailColors = ['#FFD700', '#FFA500', '#FF8C00'];
         for (let i = 0; i < 5; i++) {
             const wave = Math.sin(this.maneWave + i * 0.5) * 8;
             ctx.beginPath();
-            ctx.moveTo(-45, 30);
-            ctx.quadraticCurveTo(-70 + wave, 40 + i * 8, -85 + wave, 50 + i * 12);
+            ctx.moveTo(-50, 35);
+            ctx.quadraticCurveTo(-75 + wave, 50 + i * 10, -95 + wave, 65 + i * 15);
             ctx.strokeStyle = tailColors[i % 3];
-            ctx.lineWidth = 6 - i * 0.8;
+            ctx.lineWidth = 7 - i;
             ctx.lineCap = 'round';
             ctx.stroke();
         }
-
-        // Front legs (raised in rearing pose) - MAKE MORE VISIBLE
-        ctx.fillStyle = '#FAFAFA';
-        ctx.strokeStyle = '#DDD';
-        ctx.lineWidth = 2;
-
-        // Left front leg (raised high)
-        ctx.beginPath();
-        ctx.moveTo(15, 5);
-        ctx.quadraticCurveTo(5, -25, 0 + this.legFrame * 0.5, -55);
-        ctx.lineTo(8 + this.legFrame * 0.5, -55);
-        ctx.quadraticCurveTo(15, -25, 22, 5);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-
-        // Left front hoof
-        ctx.beginPath();
-        ctx.ellipse(4 + this.legFrame * 0.5, -58, 6, 4, -0.3, 0, Math.PI * 2);
-        ctx.fillStyle = '#444';
-        ctx.fill();
-
-        // Right front leg (raised high)
-        ctx.fillStyle = '#F0F0F0';
-        ctx.beginPath();
-        ctx.moveTo(25, 0);
-        ctx.quadraticCurveTo(30, -30, 35 - this.legFrame * 0.5, -65);
-        ctx.lineTo(42 - this.legFrame * 0.5, -62);
-        ctx.quadraticCurveTo(38, -25, 32, 0);
-        ctx.closePath();
-        ctx.fill();
-        ctx.strokeStyle = '#DDD';
-        ctx.stroke();
-
-        // Right front hoof
-        ctx.beginPath();
-        ctx.ellipse(38 - this.legFrame * 0.5, -67, 6, 4, 0.2, 0, Math.PI * 2);
-        ctx.fillStyle = '#444';
-        ctx.fill();
 
         // Neck (curved up)
         ctx.beginPath();
