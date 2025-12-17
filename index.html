@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="NinjaCat ($NINJACAT) - Microsoft's legendary Ninja Cat riding a fire-breathing unicorn! The ultimate 2010s meme reborn on Solana. 🐱‍👤🦄🔥🌈">
+  <meta name="keywords"
+    content="NinjaCat, NINJACAT, Solana, meme coin, Microsoft, Ninja Cat, fire breathing unicorn, crypto, Windows 10, Internet meme">
+  <meta property="og:title" content="🐱‍👤 NinjaCat - Riding a Fire Breathing Unicorn to the Moon 🌈">
+  <meta property="og:description"
+    content="Welcome to the Internet! The legendary Microsoft mascot is now a Solana meme coin. 🦄🔥">
+  <meta property="og:image" content="/ninjacat-hero.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>🐱‍👤 NinjaCat | $NINJACAT on Solana 🌈</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+  <!-- Stars & Rainbow background -->
+  <div class="stars-container" id="stars"></div>
+
+  <!-- Rainbow confetti container -->
+  <div class="confetti-container" id="confetti"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <img src="/favicon.png" alt="NinjaCat" class="nav-logo">
+      <span class="nav-title">NINJACAT 🌈</span>
+    </div>
+    <div class="nav-links">
+      <a href="#about">Lore</a>
+      <a href="#gallery">Memes</a>
+      <a href="#tokenomics">Stats</a>
+      <a href="#community">Join</a>
+    </div>
+    <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">Lore</a>
+    <a href="#gallery">Memes</a>
+    <a href="#tokenomics">Stats</a>
+    <a href="#community">Join</a>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🐱‍👤 Welcome to the Internet! Microsoft's Legendary Mascot on Solana ✨</div>
+      <h1 class="hero-title">
+        <span class="title-ninja">NINJA</span><span class="title-cat">CAT</span>
+      </h1>
+      <p class="hero-subtitle">🦄🔥 On Fire Breathing Unicorn 🔥🦄</p>
+      <p class="hero-description">
+        Born from a Microsoft internal joke in 2014, the Ninja Cat became Windows 10's most beloved unofficial mascot.
+        Now this legendary meme rides again - straight into Solana! Are you ready to join the rainbow? 🌈
+      </p>
+
+      <!-- BIG CA DISPLAY - Click to copy with confetti -->
+      <div class="ca-box" id="caBox">
+        <div class="ca-header">
+          <span class="ca-icon">📋</span>
+          <span class="ca-label">Contract Address</span>
+          <span class="ca-hint">Click to copy!</span>
+        </div>
+        <code class="ca-display" id="caDisplay">E4FDbGBgFmk8BRkmfkGK5wUr4YzSqUyfmFHtgdVvpump</code>
+      </div>
+
+      <div class="hero-buttons">
+        <a href="https://pump.fun/coin/E4FDbGBgFmk8BRkmfkGK5wUr4YzSqUyfmFHtgdVvpump" target="_blank"
+          class="btn btn-primary">
+          <span class="btn-icon">🚀</span> Buy on Pump.fun
+        </a>
+        <a href="https://x.com/i/communities/2001198475090804790" target="_blank" class="btn btn-secondary">
+          <span class="btn-icon">𝕏</span> Join Community
+        </a>
+      </div>
+
+      <!-- Price Ticker Panel -->
+      <div class="price-ticker" id="priceTicker">
+        <div class="ticker-item">
+          <span class="ticker-label">Price</span>
+          <span class="ticker-value" id="tickerPrice">$0.00000847</span>
+        </div>
+        <div class="ticker-item ticker-change positive" id="tickerChangeWrap">
+          <span class="ticker-label">24h</span>
+          <span class="ticker-value" id="tickerChange">+42.69%</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-label">MCap</span>
+          <span class="ticker-value" id="tickerMcap">$8.47K</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-label">Vol</span>
+          <span class="ticker-value" id="tickerVolume">$2.1K</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="/ninjacat-hero.jpg" alt="NinjaCat riding fire breathing unicorn to the moon" class="ninja-main">
+      <div class="hero-glow"></div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about" id="about">
+    <div class="section-container">
+      <h2 class="section-title">✨ The Legend of NinjaCat ✨</h2>
+      <div class="about-grid">
+        <div class="about-image">
+          <img src="/CKd3z0zWsAAl77D.png" alt="NinjaCat Origins">
+        </div>
+        <div class="about-content">
+          <div class="lore-item">
+            <span class="lore-year">🎮 2014</span>
+            <h3>The Birth of a Legend</h3>
+            <p>KC Lemson at Microsoft created the Ninja Cat as a joke slide for a Windows 10 internal presentation.
+              Inspired by the "Welcome to the Internet" meme with kittens, puppies, rainbows & unicorns, it went VIRAL
+              internally! 🌈</p>
+          </div>
+          <div class="lore-item">
+            <span class="lore-year">🏆 2015</span>
+            <h3>The Sticker Phenomenon</h3>
+            <p>Microsoft employees went crazy for NinjaCat stickers! They appeared on laptops across the company. The
+              Verge covered it, and the world discovered the Ninja Cat riding a FIRE-BREATHING UNICORN! 🦄🔥</p>
+          </div>
+          <div class="lore-item">
+            <span class="lore-year">😺 2016</span>
+            <h3>Windows-Only Emoji</h3>
+            <p>Microsoft added NinjaCat as exclusive Windows emoji sequences - the ONLY platform with these legendary
+              characters. 🐱‍👤 Cat + T-Rex = Pure Internet Gold!</p>
+          </div>
+          <div class="lore-item">
+            <span class="lore-year">🚀 2024</span>
+            <h3>Solana Rebirth</h3>
+            <p>Now NinjaCat rides again - on the SOLANA blockchain! Join the rainbow army and be part of meme history!
+              TO THE MOON! 🌙</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="gallery" id="gallery">
+    <div class="section-container">
+      <h2 class="section-title">🎨 Meme Gallery 🎨</h2>
+      <p class="section-subtitle">The legendary collection - straight from Microsoft's most iconic era! Click to view
+        full size ✨</p>
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Images will be populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Tokenomics Section -->
+  <section class="tokenomics" id="tokenomics">
+    <div class="section-container">
+      <h2 class="section-title">📊 Tokenomics 📊</h2>
+      <div class="tokenomics-grid">
+        <div class="token-card">
+          <span class="token-icon">🐱‍👤</span>
+          <h3>Token Name</h3>
+          <p>NinjaCatOnFireBreathingUnicorn</p>
+        </div>
+        <div class="token-card">
+          <span class="token-icon">💎</span>
+          <h3>Symbol</h3>
+          <p>$NINJACAT</p>
+        </div>
+        <div class="token-card">
+          <span class="token-icon">⛓️</span>
+          <h3>Network</h3>
+          <p>Solana</p>
+        </div>
+        <div class="token-card">
+          <span class="token-icon">🔥</span>
+          <h3>Supply</h3>
+          <p>1 Billion</p>
+        </div>
+        <div class="token-card">
+          <span class="token-icon">💧</span>
+          <h3>Liquidity</h3>
+          <p>Burned 🔥</p>
+        </div>
+        <div class="token-card">
+          <span class="token-icon">🚫</span>
+          <h3>Tax</h3>
+          <p>0%</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Section -->
+  <section class="community" id="community">
+    <div class="section-container">
+      <h2 class="section-title">🌈 Join the Rainbow Army 🌈</h2>
+      <p class="section-subtitle">Connect with fellow NinjaCat legends! 🐱‍👤</p>
+      <div class="community-links">
+        <a href="https://x.com/i/communities/2001198475090804790" target="_blank" class="community-card">
+          <span class="community-icon">𝕏</span>
+          <h3>X Community</h3>
+          <p>Join the conversation! 💬</p>
+        </a>
+        <a href="https://pump.fun/coin/E4FDbGBgFmk8BRkmfkGK5wUr4YzSqUyfmFHtgdVvpump" target="_blank"
+          class="community-card">
+          <span class="community-icon">🎰</span>
+          <h3>Pump.fun</h3>
+          <p>Trade the legend! 📈</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="/favicon.png" alt="NinjaCat">
+        <span>NINJACAT</span>
+      </div>
+      <div class="footer-ca">
+        <p>✨ Contract Address ✨</p>
+        <code id="footerCA">E4FDbGBgFmk8BRkmfkGK5wUr4YzSqUyfmFHtgdVvpump</code>
+        <button class="copy-btn" id="footerCopyBtn">📋 Copy CA</button>
+      </div>
+      <p class="footer-disclaimer">
+        $NINJACAT is a meme coin with no intrinsic value or expectation of financial return. This is not financial
+        advice. DYOR! 🐱‍👤
+      </p>
+      <p class="footer-copyright">© 2024 NinjaCat Community. Made with 🌈 and 🔥</p>
+
+      <!-- Credit - subtle but recognizable -->
+      <a href="https://x.com/MikaelAthar" target="_blank" class="footer-credit">
+        Website by <span>@MikaelAthar</span>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast">✨ Copied to clipboard! 🐱‍👤 ✨</div>
+
+  <script type="module" src="/pet.js"></script>
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>
