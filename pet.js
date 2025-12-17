@@ -1,7 +1,7 @@
-// NinjaCat Pet - High Fidelity Smooth Vector Style
-// Renders the Ninja Cat on a Rearing Unicorn using Canvas 2D paths and gradients
+// NinjaCat Pet - Reference-Matched High Fidelity Version
+// Accurately recreates the iconic NinjaCat on Fire-Breathing Unicorn
 
-class SmoothPet {
+class NinjaCatPet {
   constructor() {
     this.canvas = null;
     this.ctx = null;
@@ -16,7 +16,7 @@ class SmoothPet {
     this.vx = 0;
     this.vy = 0;
     this.direction = 1; // 1 = right, -1 = left
-    this.scale = 0.8;
+    this.scale = 1.0;
 
     // Animation
     this.frame = 0;
@@ -27,24 +27,23 @@ class SmoothPet {
   }
 
   init() {
-    // Create full screen canvas
     this.canvas = document.createElement('canvas');
-    this.canvas.id = 'smoothPet';
-    this.canvas.style.position = 'fixed';
-    this.canvas.style.top = '0';
-    this.canvas.style.left = '0';
-    this.canvas.style.width = '100%';
-    this.canvas.style.height = '100%';
-    this.canvas.style.pointerEvents = 'none';
-    this.canvas.style.zIndex = '9999';
-
+    this.canvas.id = 'ninjaCatPet';
+    this.canvas.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    `;
     document.body.appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d');
 
-    // Events
     window.addEventListener('resize', () => this.resize());
     window.addEventListener('mousemove', (e) => this.onMove(e.clientX, e.clientY));
-    window.addEventListener('touchstart', (e) => {
+    window.addEventListener('touchmove', (e) => {
       if (e.touches[0]) this.onMove(e.touches[0].clientX, e.touches[0].clientY);
     }, { passive: true });
 
@@ -64,30 +63,27 @@ class SmoothPet {
   }
 
   update() {
-    // Idle Wander Logic
+    // Idle wander
     if (Date.now() - this.lastInput > 3000) {
-      this.idleTime += 0.01;
-      // Orbit center slowly
+      this.idleTime += 0.008;
       const cx = this.canvas.width / 2;
       const cy = this.canvas.height / 2;
-      this.targetX = cx + Math.cos(this.idleTime) * 300;
-      this.targetY = cy + Math.sin(this.idleTime * 0.7) * 150;
+      this.targetX = cx + Math.cos(this.idleTime) * 250;
+      this.targetY = cy + Math.sin(this.idleTime * 0.7) * 120;
     }
 
-    // Movement Physics
+    // Smooth follow physics
     const dx = this.targetX - this.x;
     const dy = this.targetY - this.y;
-
-    this.vx += dx * 0.005;
-    this.vy += dy * 0.005;
-    this.vx *= 0.92;
-    this.vy *= 0.92;
-
+    this.vx += dx * 0.003;
+    this.vy += dy * 0.003;
+    this.vx *= 0.95;
+    this.vy *= 0.95;
     this.x += this.vx;
     this.y += this.vy;
 
-    // Direction
-    if (Math.abs(this.vx) > 0.5) {
+    // Direction based on velocity
+    if (Math.abs(this.vx) > 0.3) {
       this.direction = this.vx > 0 ? 1 : -1;
     }
 
@@ -108,403 +104,595 @@ class SmoothPet {
     ctx.save();
     ctx.translate(this.x, this.y);
 
-    // Flip if moving left
+    // Flip horizontally if moving left
     if (this.direction === -1) {
       ctx.scale(-this.scale, this.scale);
     } else {
       ctx.scale(this.scale, this.scale);
     }
 
-    // Bobbing Animation
-    const bob = Math.sin(this.frame * 0.1) * 5;
+    // Gentle bobbing
+    const bob = Math.sin(this.frame * 0.08) * 3;
     ctx.translate(0, bob);
 
-    // === RENDER ORDER ===
-    // 1. Back Legs (Far)
-    // 2. Tail
-    // 3. Body
-    // 4. Fire Breath (Behind head?) No, usually in front.
-    // 5. Neck/Head
-    // 6. Cat (Rider)
-    // 7. Flag
-    // 8. Front Legs/Back Legs (Near)
-
-    this.drawUnicornBody();
-    this.drawNinjaCat();
+    // Draw in correct order (back to front)
     this.drawFireBreath();
+    this.drawTail();
+    this.drawBackLegs();
+    this.drawBody();
+    this.drawMane();
+    this.drawNeck();
+    this.drawHead();
+    this.drawFrontLegs();
+    this.drawCat();
+    this.drawFlag();
 
     ctx.restore();
   }
 
-  drawUnicornBody() {
+  // === UNICORN BODY ===
+  drawBody() {
     const ctx = this.ctx;
-
-    // --- 1. Right Back Leg (Far) ---
     ctx.save();
-    ctx.fillStyle = '#E0E0E0'; // Slightly darker
-    ctx.translate(-40, 60);
-    ctx.rotate(0.2);
-    this.drawLegShape(ctx, 15, 60);
-    ctx.restore();
 
-    // --- 2. Tail (Flowing Golden) ---
-    const tWave = Math.sin(this.frame * 0.15) * 10;
+    // Body is tilted back (rearing pose) - about 50 degrees
+    ctx.rotate(-0.9);
+
+    // Main body - horse torso shape
     ctx.beginPath();
-    // Base of tail
-    ctx.moveTo(-70, 20);
-    // Curve down and back
-    ctx.bezierCurveTo(-100, 30, -120 + tWave, 80, -140 + tWave, 100);
-    // Curve width
-    ctx.bezierCurveTo(-110 + tWave, 90, -90, 40, -60, 25);
+    ctx.moveTo(-50, 0);
+    ctx.bezierCurveTo(-60, -30, -30, -50, 20, -45); // Back curve
+    ctx.bezierCurveTo(50, -40, 60, -20, 55, 10);    // Chest
+    ctx.bezierCurveTo(50, 40, 20, 50, -20, 45);     // Belly
+    ctx.bezierCurveTo(-45, 40, -55, 20, -50, 0);    // Hindquarters
+    ctx.closePath();
 
-    const tailGrad = ctx.createLinearGradient(-100, 20, -140, 100);
-    tailGrad.addColorStop(0, '#FFE082'); // Gold Light
-    tailGrad.addColorStop(1, '#FFB300'); // Gold Dark
-    ctx.fillStyle = tailGrad;
-    ctx.fill();
-    ctx.strokeStyle = '#F57F17';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    // --- 3. Body (Rearing) ---
-    // Torso is angled ~60 degrees
-    ctx.save();
-    ctx.rotate(-Math.PI / 4.5); // Angled up
-
-    // Main Body Oval
-    ctx.beginPath();
-    ctx.ellipse(0, 0, 38, 85, 0, 0, Math.PI * 2); // Slimmer (38) and slightly longer (85)
-
-    // Gradient for 3D feel
-    const bodyGrad = ctx.createRadialGradient(-10, -10, 10, 0, 0, 80);
+    // White body with subtle gradient
+    const bodyGrad = ctx.createRadialGradient(0, -10, 5, 0, 0, 60);
     bodyGrad.addColorStop(0, '#FFFFFF');
-    bodyGrad.addColorStop(0.5, '#F5F5F5');
-    bodyGrad.addColorStop(1, '#E0E0E0');
-
+    bodyGrad.addColorStop(0.7, '#F8F8F8');
+    bodyGrad.addColorStop(1, '#E8E8E8');
     ctx.fillStyle = bodyGrad;
     ctx.fill();
-    // ctx.stroke(); // No outline for body to merge with neck
 
     ctx.restore();
+  }
 
-    // --- 4. Left Back Leg (Near/Weight Bearing) ---
+  drawNeck() {
+    const ctx = this.ctx;
     ctx.save();
-    ctx.translate(-50, 75);
-    ctx.rotate(0.1);
-    ctx.scale(1.1, 1.1);
-    this.drawLegShape(ctx, 16, 65, '#FFFFFF');
-    ctx.restore();
 
-    // --- 5. Neck & Head ---
-    ctx.save();
-    // Translate to top of body
-    ctx.translate(20, -45); // Adjusted closer to new body shape
-    ctx.rotate(-0.2);
+    // Neck extends from chest area upward
+    ctx.translate(30, -70);
+    ctx.rotate(-0.3);
 
-    // Neck 
     ctx.beginPath();
-    ctx.moveTo(0, 20);
-    ctx.quadraticCurveTo(10, -20, 25, -40); // Throat
-    ctx.lineTo(55, -40); // Chin
-    ctx.quadraticCurveTo(50, -10, 30, 30); // Back of neck
+    ctx.moveTo(0, 40);
+    ctx.bezierCurveTo(-15, 20, -15, -20, 0, -50);   // Back of neck
+    ctx.bezierCurveTo(15, -55, 30, -45, 35, -30);   // Top curve to head
+    ctx.bezierCurveTo(40, -10, 35, 20, 25, 40);     // Front of neck (throat)
     ctx.closePath();
+
     ctx.fillStyle = '#FFFFFF';
     ctx.fill();
 
-    // Head
-    ctx.translate(40, -45);
-    ctx.beginPath();
-    // Snout
-    ctx.moveTo(0, 0);
-    ctx.lineTo(25, 5);
-    ctx.lineTo(24, 15);
-    ctx.lineTo(0, 20); // Jaw
-    // Cheek
-    ctx.bezierCurveTo(-10, 25, -20, 15, -20, 0); // Back of head
-    ctx.lineTo(0, 0);
+    ctx.restore();
+  }
 
+  drawHead() {
+    const ctx = this.ctx;
+    ctx.save();
+
+    // Position head at end of neck
+    ctx.translate(60, -115);
+    ctx.rotate(-0.2);
+
+    // Horse head shape
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(-20, -5, -25, 5, -20, 20);     // Back of head
+    ctx.bezierCurveTo(-15, 35, 10, 45, 30, 40);      // Jaw
+    ctx.bezierCurveTo(45, 35, 55, 25, 55, 15);       // Snout
+    ctx.bezierCurveTo(55, 5, 45, -5, 30, -8);        // Nose bridge
+    ctx.bezierCurveTo(15, -10, 5, -5, 0, 0);         // Forehead
+    ctx.closePath();
     ctx.fillStyle = '#FFFFFF';
     ctx.fill();
 
     // Ear
     ctx.beginPath();
-    ctx.moveTo(-15, 0);
-    ctx.lineTo(-20, -15);
-    ctx.lineTo(-10, -5);
+    ctx.moveTo(-5, -5);
+    ctx.lineTo(-15, -25);
+    ctx.lineTo(5, -10);
+    ctx.closePath();
     ctx.fillStyle = '#FFFFFF';
     ctx.fill();
+    ctx.strokeStyle = '#DDD';
+    ctx.lineWidth = 1;
     ctx.stroke();
 
-    // Eye (Burning Red/Orange for NinjaCat Lore or Normal?) 
-    // Reference has glowing red eye? Or plain? Let's do cool glowing eye.
+    // Eye - simple black dot
     ctx.beginPath();
-    ctx.ellipse(-5, 5, 4, 3, 0, 0, Math.PI * 2);
-    ctx.fillStyle = '#FF3D00';
+    ctx.arc(15, 10, 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#222';
     ctx.fill();
 
-    // Horn (Spiral)
+    // Horn - long golden spiral
+    this.drawHorn(ctx, 5, -15);
+
+    ctx.restore();
+  }
+
+  drawHorn(ctx, x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-0.8); // Point forward and up
+
+    // Long spiral horn
     ctx.beginPath();
-    ctx.moveTo(-5, -5);
-    ctx.lineTo(35, -35); // Long horn forward/up
-    ctx.lineTo(0, 0);
-    const hornGrad = ctx.createLinearGradient(0, 0, 35, -35);
+    ctx.moveTo(0, 0);
+    ctx.lineTo(8, -60);
+    ctx.lineTo(-5, 0);
+    ctx.closePath();
+
+    const hornGrad = ctx.createLinearGradient(0, 0, 5, -60);
     hornGrad.addColorStop(0, '#FFD54F');
-    hornGrad.addColorStop(0.5, '#FFF176');
-    hornGrad.addColorStop(1, '#FF6F00');
+    hornGrad.addColorStop(0.5, '#FFECB3');
+    hornGrad.addColorStop(1, '#FFC107');
     ctx.fillStyle = hornGrad;
     ctx.fill();
     ctx.strokeStyle = '#FFA000';
+    ctx.lineWidth = 1;
     ctx.stroke();
 
-    // Mane (Wild Fire Hair)
-    ctx.beginPath();
-    ctx.moveTo(-20, -10);
-
-    // Spikes for mane
+    // Spiral lines on horn
+    ctx.strokeStyle = '#FFB300';
+    ctx.lineWidth = 0.5;
     for (let i = 0; i < 5; i++) {
-      const wave = Math.sin(this.frame * 0.2 + i) * 5;
-      ctx.lineTo(-35 - i * 5 + wave, 10 + i * 15);
-      ctx.lineTo(-20 - i * 2, 20 + i * 15);
+      ctx.beginPath();
+      ctx.moveTo(-2, -10 - i * 10);
+      ctx.lineTo(5, -15 - i * 10);
+      ctx.stroke();
     }
-    ctx.lineTo(-5, 0);
+
+    ctx.restore();
+  }
+
+  // === MANE - Flowing golden hair ===
+  drawMane() {
+    const ctx = this.ctx;
+    const wave = Math.sin(this.frame * 0.1);
+
+    ctx.save();
+    ctx.translate(20, -100);
+
+    // Large flowing mane with multiple strands
+    const maneGrad = ctx.createLinearGradient(-30, -20, -80, 80);
+    maneGrad.addColorStop(0, '#FFD54F');
+    maneGrad.addColorStop(0.3, '#FFAB00');
+    maneGrad.addColorStop(0.7, '#FF8F00');
+    maneGrad.addColorStop(1, '#E65100');
+
+    ctx.fillStyle = maneGrad;
+
+    // Multiple flowing strands
+    for (let strand = 0; strand < 5; strand++) {
+      const offset = strand * 8;
+      const waveOff = wave * (5 + strand * 2);
+
+      ctx.beginPath();
+      ctx.moveTo(-5 - offset, -10 + strand * 5);
+      ctx.bezierCurveTo(
+        -30 - offset + waveOff, 20 + strand * 10,
+        -50 - offset + waveOff * 1.5, 60 + strand * 15,
+        -40 - offset + waveOff * 2, 100 + strand * 20
+      );
+      ctx.bezierCurveTo(
+        -30 - offset + waveOff * 1.5, 90 + strand * 18,
+        -20 - offset + waveOff, 50 + strand * 12,
+        0 - offset, 10 + strand * 8
+      );
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    ctx.restore();
+  }
+
+  // === TAIL - Long flowing golden tail ===
+  drawTail() {
+    const ctx = this.ctx;
+    const wave = Math.sin(this.frame * 0.12);
+
+    ctx.save();
+    ctx.translate(-70, 30);
+
+    const tailGrad = ctx.createLinearGradient(0, 0, -80, 60);
+    tailGrad.addColorStop(0, '#FFD54F');
+    tailGrad.addColorStop(0.4, '#FFAB00');
+    tailGrad.addColorStop(1, '#E65100');
 
     ctx.fillStyle = tailGrad;
-    ctx.fill();
-    ctx.stroke();
 
-    ctx.restore(); // End Head Context
-
-    // --- 6. Front Legs (Flailing) ---
-    const legWave = Math.sin(this.frame * 0.2) * 10;
-
-    // Far Front Leg (Shoulder joint adjusted)
-    ctx.save();
-    ctx.translate(25, -15); // Moved down and forward (was 20, -10)
-    ctx.rotate(-0.5 + legWave * 0.01);
-    this.drawLegShape(ctx, 13, 55, '#E0E0E0', true); // Longer (55)
-    ctx.restore();
-
-    // Near Front Leg (Higher)
-    ctx.save();
-    ctx.translate(35, -25); // Moved down and forward (was 30, -20)
-    ctx.rotate(-0.8 - legWave * 0.01);
-    this.drawLegShape(ctx, 14, 55, '#FFFFFF', true); // Longer (55)
-    ctx.restore();
-  }
-
-  drawLegShape(ctx, w, h, color = '#FFFFFF', bent = false) {
+    // Main tail body
     ctx.beginPath();
-    if (bent) {
-      // Front leg bent knee
-      ctx.moveTo(0, 0);
-      ctx.lineTo(w, -h / 2); // Knee up
-      ctx.lineTo(w * 2, 0); // Hoof forward
-    } else {
-      // Back leg stand
-      ctx.moveTo(0, 0);
-      ctx.lineTo(-5, h / 2); // Knee
-      ctx.lineTo(5, h); // Hoof
+    ctx.moveTo(0, -10);
+    ctx.bezierCurveTo(
+      -40 + wave * 8, 10,
+      -80 + wave * 15, 50,
+      -100 + wave * 20, 100
+    );
+    ctx.bezierCurveTo(
+      -70 + wave * 15, 90,
+      -40 + wave * 8, 50,
+      -10, 20
+    );
+    ctx.closePath();
+    ctx.fill();
+
+    // Additional tail strands
+    for (let i = 0; i < 3; i++) {
+      ctx.beginPath();
+      const yOff = i * 8;
+      ctx.moveTo(-5, yOff);
+      ctx.bezierCurveTo(
+        -50 + wave * 10, 30 + yOff,
+        -90 + wave * 18, 80 + yOff,
+        -110 + wave * 22, 120 + yOff
+      );
+      ctx.bezierCurveTo(
+        -85 + wave * 16, 100 + yOff,
+        -45 + wave * 8, 50 + yOff,
+        -15, 15 + yOff
+      );
+      ctx.closePath();
+      ctx.fill();
     }
 
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.lineWidth = w;
-    ctx.strokeStyle = color;
-    ctx.stroke();
-
-    // Hoof
-    ctx.lineWidth = 1;
-    ctx.fillStyle = '#333';
-    const hx = bent ? w * 2 : 5;
-    const hy = bent ? 0 : h;
-    ctx.beginPath();
-    ctx.ellipse(hx, hy + 2, w / 2 + 2, w / 3, 0, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.restore();
   }
 
-  drawNinjaCat() {
+  // === LEGS ===
+  drawBackLegs() {
     const ctx = this.ctx;
 
-    // Cat Position: Back of the neck/shoulders
-    const rideX = 10;
-    const rideY = -35;
-
+    // Far back leg (slightly darker)
     ctx.save();
-    ctx.translate(rideX, rideY);
+    ctx.translate(-55, 50);
+    this.drawLeg(ctx, '#E8E8E8', 0.15);
+    ctx.restore();
 
-    // Cat Body (Gray)
+    // Near back leg (supporting weight)
+    ctx.save();
+    ctx.translate(-40, 60);
+    this.drawLeg(ctx, '#FFFFFF', 0.1);
+    ctx.restore();
+  }
+
+  drawFrontLegs() {
+    const ctx = this.ctx;
+    const legWave = Math.sin(this.frame * 0.15) * 0.1;
+
+    // Far front leg (raised)
+    ctx.save();
+    ctx.translate(20, -20);
+    ctx.rotate(-0.7 + legWave);
+    this.drawRaisedLeg(ctx, '#E8E8E8');
+    ctx.restore();
+
+    // Near front leg (more raised)
+    ctx.save();
+    ctx.translate(35, -30);
+    ctx.rotate(-0.9 - legWave);
+    this.drawRaisedLeg(ctx, '#FFFFFF');
+    ctx.restore();
+  }
+
+  drawLeg(ctx, color, angle) {
+    ctx.save();
+    ctx.rotate(angle);
+
+    // Upper leg
     ctx.beginPath();
-    ctx.ellipse(0, 0, 15, 25, -0.2, 0, Math.PI * 2); // Torso
-    ctx.fillStyle = '#616161';
+    ctx.moveTo(-8, 0);
+    ctx.lineTo(-10, 40);
+    ctx.lineTo(10, 40);
+    ctx.lineTo(8, 0);
+    ctx.closePath();
+    ctx.fillStyle = color;
     ctx.fill();
 
-    // White Chest Patch
+    // Lower leg
     ctx.beginPath();
-    ctx.ellipse(5, -5, 8, 12, -0.2, 0, Math.PI * 2);
-    ctx.fillStyle = '#F5F5F5';
+    ctx.moveTo(-8, 40);
+    ctx.lineTo(-6, 80);
+    ctx.lineTo(6, 80);
+    ctx.lineTo(8, 40);
+    ctx.closePath();
     ctx.fill();
 
-    // Head
-    ctx.translate(5, -25);
+    // Hoof
     ctx.beginPath();
-    ctx.arc(0, 0, 14, 0, Math.PI * 2);
-    ctx.fillStyle = '#616161';
+    ctx.ellipse(0, 85, 10, 6, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#333';
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  drawRaisedLeg(ctx, color) {
+    // Front leg bent at knee (rearing)
+    ctx.beginPath();
+    ctx.moveTo(-6, 0);
+    ctx.lineTo(-8, 25);
+    ctx.lineTo(8, 25);
+    ctx.lineTo(6, 0);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    // Lower portion bent forward
+    ctx.save();
+    ctx.translate(0, 25);
+    ctx.rotate(0.6);
+    ctx.beginPath();
+    ctx.moveTo(-5, 0);
+    ctx.lineTo(-4, 30);
+    ctx.lineTo(4, 30);
+    ctx.lineTo(5, 0);
+    ctx.closePath();
+    ctx.fill();
+
+    // Hoof
+    ctx.beginPath();
+    ctx.ellipse(0, 33, 7, 5, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#333';
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // === FIRE BREATH ===
+  drawFireBreath() {
+    const ctx = this.ctx;
+    ctx.save();
+
+    // Position at mouth
+    ctx.translate(100, -90);
+    ctx.rotate(0.4);
+
+    // Create flame shape with gradient
+    const flameGrad = ctx.createLinearGradient(0, 0, 150, 0);
+    flameGrad.addColorStop(0, '#FFEB3B');
+    flameGrad.addColorStop(0.3, '#FF9800');
+    flameGrad.addColorStop(0.6, '#FF5722');
+    flameGrad.addColorStop(1, 'rgba(255, 87, 34, 0)');
+
+    // Main flame body
+    const flameWave = Math.sin(this.frame * 0.2) * 5;
+
+    ctx.beginPath();
+    ctx.moveTo(0, -15);
+
+    // Top edge of flame with jagged edges
+    for (let i = 0; i < 8; i++) {
+      const x = 20 + i * 18;
+      const y = -20 + Math.sin(this.frame * 0.3 + i) * (8 + i * 2);
+      ctx.lineTo(x, y + flameWave);
+    }
+
+    // Tip of flame
+    ctx.lineTo(180, flameWave);
+
+    // Bottom edge
+    for (let i = 7; i >= 0; i--) {
+      const x = 20 + i * 18;
+      const y = 20 - Math.sin(this.frame * 0.3 + i + 1) * (8 + i * 2);
+      ctx.lineTo(x, y + flameWave);
+    }
+
+    ctx.lineTo(0, 15);
+    ctx.closePath();
+
+    ctx.fillStyle = flameGrad;
+    ctx.fill();
+
+    // Inner bright core
+    const coreGrad = ctx.createLinearGradient(0, 0, 80, 0);
+    coreGrad.addColorStop(0, '#FFF9C4');
+    coreGrad.addColorStop(0.5, '#FFEB3B');
+    coreGrad.addColorStop(1, 'rgba(255, 235, 59, 0)');
+
+    ctx.beginPath();
+    ctx.moveTo(0, -8);
+    ctx.bezierCurveTo(30, -10 + flameWave, 60, -5 + flameWave, 100, flameWave);
+    ctx.bezierCurveTo(60, 5 + flameWave, 30, 10 + flameWave, 0, 8);
+    ctx.closePath();
+    ctx.fillStyle = coreGrad;
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  // === NINJA CAT ===
+  drawCat() {
+    const ctx = this.ctx;
+    ctx.save();
+
+    // Position cat on unicorn's back
+    ctx.translate(-10, -85);
+    ctx.rotate(-0.2);
+
+    // Cat body (dark gray/brown)
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 18, 28, -0.3, 0, Math.PI * 2);
+    ctx.fillStyle = '#5D4037';
+    ctx.fill();
+
+    // Cat head
+    ctx.save();
+    ctx.translate(8, -30);
+
+    // Head circle
+    ctx.beginPath();
+    ctx.arc(0, 0, 16, 0, Math.PI * 2);
+    ctx.fillStyle = '#5D4037';
     ctx.fill();
 
     // Ears
     ctx.beginPath();
-    ctx.moveTo(-10, -5); ctx.lineTo(-12, -22); ctx.lineTo(-2, -10);
-    ctx.moveTo(2, -10); ctx.lineTo(12, -22); ctx.lineTo(10, -5);
+    ctx.moveTo(-12, -8);
+    ctx.lineTo(-14, -26);
+    ctx.lineTo(-4, -12);
+    ctx.closePath();
+    ctx.moveTo(4, -12);
+    ctx.lineTo(14, -26);
+    ctx.lineTo(12, -8);
+    ctx.closePath();
     ctx.fill();
 
-    // Red Bandana
+    // Inner ears (pink)
     ctx.beginPath();
-    ctx.rect(-14, -8, 28, 6);
-    ctx.fillStyle = '#D50000';
+    ctx.moveTo(-10, -10);
+    ctx.lineTo(-12, -22);
+    ctx.lineTo(-6, -12);
+    ctx.closePath();
+    ctx.moveTo(6, -12);
+    ctx.lineTo(12, -22);
+    ctx.lineTo(10, -10);
+    ctx.closePath();
+    ctx.fillStyle = '#FFAB91';
     ctx.fill();
 
-    // Bandana Tails (Flowing back)
-    const wind = Math.sin(this.frame * 0.2) * 5;
+    // Red bandana (over eyes, ninja style)
     ctx.beginPath();
-    ctx.moveTo(-14, -5);
-    ctx.quadraticCurveTo(-30, -5 + wind, -40, -10 + wind);
-    ctx.lineTo(-40, 0 + wind);
-    ctx.quadraticCurveTo(-30, 5 + wind, -14, 0);
+    ctx.rect(-16, -6, 32, 10);
+    ctx.fillStyle = '#D32F2F';
     ctx.fill();
 
-    // Arms
-    // Left Arm (Holding on)
+    // Bandana tails flowing back
+    const bandanaWave = Math.sin(this.frame * 0.15) * 4;
     ctx.beginPath();
-    ctx.moveTo(-5, 15);
-    ctx.quadraticCurveTo(-15, 20, -10, 30);
-    ctx.lineWidth = 6;
-    ctx.strokeStyle = '#616161';
+    ctx.moveTo(-16, -3);
+    ctx.bezierCurveTo(-30, -5 + bandanaWave, -45, 0 + bandanaWave, -55, -8 + bandanaWave);
+    ctx.lineTo(-55, 2 + bandanaWave);
+    ctx.bezierCurveTo(-45, 10 + bandanaWave, -30, 5 + bandanaWave, -16, 4);
+    ctx.closePath();
+    ctx.fill();
+
+    // Nose
+    ctx.beginPath();
+    ctx.ellipse(5, 8, 3, 2, 0, 0, Math.PI * 2);
+    ctx.fillStyle = '#FF8A80';
+    ctx.fill();
+
+    // Whiskers
+    ctx.strokeStyle = '#8D6E63';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(-5, 10); ctx.lineTo(-20, 8);
+    ctx.moveTo(-5, 12); ctx.lineTo(-20, 14);
+    ctx.moveTo(10, 10); ctx.lineTo(25, 8);
+    ctx.moveTo(10, 12); ctx.lineTo(25, 14);
     ctx.stroke();
 
-    // Right Arm (Holding Flag)
-    const armWave = Math.sin(this.frame * 0.1) * 2;
+    ctx.restore();
+
+    // Cat arms
+    // Left arm (holding mane)
     ctx.beginPath();
-    ctx.moveTo(5, 15);
-    ctx.lineTo(20, 10 + armWave);
+    ctx.moveTo(-8, 10);
+    ctx.quadraticCurveTo(-20, 15, -15, 30);
+    ctx.lineWidth = 7;
+    ctx.strokeStyle = '#5D4037';
+    ctx.lineCap = 'round';
     ctx.stroke();
 
-    // --- FLAG ---
-    this.drawFlag(20, 10 + armWave);
+    // Right arm (raised holding flag)
+    ctx.beginPath();
+    ctx.moveTo(8, 5);
+    ctx.quadraticCurveTo(25, -10, 30, -30);
+    ctx.stroke();
 
     ctx.restore();
   }
 
-  drawFlag(x, y) {
+  // === MICROSOFT FLAG ===
+  drawFlag() {
     const ctx = this.ctx;
+    ctx.save();
 
-    // Pole
+    // Position flag from cat's raised arm
+    ctx.translate(20, -145);
+
+    // Flag pole
     ctx.beginPath();
-    ctx.moveTo(x, y + 10); // Hand
-    ctx.lineTo(x, y - 80); // Top
-    ctx.strokeStyle = '#795548'; // Brown wood
-    ctx.lineWidth = 3;
+    ctx.moveTo(0, 60);
+    ctx.lineTo(0, -50);
+    ctx.strokeStyle = '#795548';
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
     ctx.stroke();
 
-    // Flag Waving Physics
-    const topY = y - 80;
-    const width = 60;
-    const height = 40;
+    // Flag wave animation
+    const wave = (x) => Math.sin(this.frame * 0.12 + x * 0.05) * 4;
 
-    // Waving shape
-    const wave = (offset) => Math.sin(this.frame * 0.15 + offset) * 5;
+    // Flag dimensions
+    const flagW = 55;
+    const flagH = 40;
+    const halfW = flagW / 2;
+    const halfH = flagH / 2;
 
-    // Draw 4 Quadrants
-    // MS Logo Colors:
-    // Red | Green
-    // Blue| Yellow
-    // Flag direction: Flying BACKWARDS (Left)
+    // Draw 4 quadrants with proper MS colors:
+    // Top-Left: Green (Xbox)
+    // Top-Right: Red  
+    // Bottom-Left: Blue
+    // Bottom-Right: Yellow
 
-    const drawQuad = (color, dx, dy) => {
-      const qw = width / 2;
-      const qh = height / 2;
+    const drawQuadrant = (startX, startY, w, h, color) => {
       ctx.fillStyle = color;
       ctx.beginPath();
 
-      // Top Edge
-      ctx.moveTo(x - dx, topY + dy + wave(dx / 20));
-      ctx.lineTo(x - dx - qw, topY + dy + wave((dx + qw) / 20));
-      // Bottom Edge
-      ctx.lineTo(x - dx - qw, topY + dy + qh + wave((dx + qw) / 20));
-      ctx.lineTo(x - dx, topY + dy + qh + wave(dx / 20));
+      const x1 = startX, y1 = startY + wave(startX);
+      const x2 = startX + w, y2 = startY + wave(startX + w);
+      const x3 = startX + w, y3 = startY + h + wave(startX + w);
+      const x4 = startX, y4 = startY + h + wave(startX);
+
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.lineTo(x3, y3);
+      ctx.lineTo(x4, y4);
+      ctx.closePath();
       ctx.fill();
     };
 
-    // Red (Top Near) -> Actually Top Right in logo, but usually logo faces viewer.
-    // Let's do standard MS logo layout relative to flag surface.
-    // If flag flies left.
-    // TL(Red)  TR(Green)
-    // BL(Blue) BR(Yellow)
-
-    drawQuad('#F25022', 0, 0); // Red (Closest to pole, Top)
-    drawQuad('#7FBA00', width / 2, 0); // Green (Far, Top)
-    drawQuad('#00A4EF', 0, height / 2); // Blue (Close, Bottom)
-    drawQuad('#FFB900', width / 2, height / 2); // Yellow (Far, Bottom)
-  }
-
-  drawFireBreath() {
-    const ctx = this.ctx;
-    // Mouth position approx:
-    // Unicorn head is at (20 + 40 + 25, -40 - 45 + 5) roughly?
-    // Body center (0,0) -> Neck trans(20, -40) -> Head trans(40, -45) -> Snout line(25, 5).
-    // Total offset approx: (85, -80).
-
-    const mx = 85;
-    const my = -80;
-
-    ctx.save();
-    ctx.translate(mx, my);
-    ctx.rotate(0.3); // Downwards
-
-    // Fire Particles
-    for (let i = 0; i < 15; i++) {
-      const fAge = (this.frame + i * 13) % 60; // 0 to 60
-      const fProg = fAge / 60;
-
-      const fx = fAge * 3; // Distance
-      const fy = Math.sin(fAge * 0.2 + i) * fAge * 0.3; // Spread
-      const fSize = 2 + fProg * 10;
-
-      const alpha = 1 - fProg;
-
-      ctx.beginPath();
-      ctx.arc(fx, fy, fSize, 0, Math.PI * 2);
-
-      // Fire Gradient
-      const grad = ctx.createRadialGradient(fx, fy, 0, fx, fy, fSize);
-      grad.addColorStop(0, `rgba(255, 255, 0, ${alpha})`); // Yellow core
-      grad.addColorStop(0.5, `rgba(255, 100, 0, ${alpha})`); // Orange mid
-      grad.addColorStop(1, `rgba(255, 0, 0, 0)`); // Red edge fade
-
-      ctx.fillStyle = grad;
-      ctx.fill();
-    }
+    // Flag flies to the left (negative X from pole)
+    // Green - Top Left (Xbox logo quadrant)
+    drawQuadrant(-flagW, -50, halfW - 1, halfH - 1, '#7FBA00');
+    // Red - Top Right
+    drawQuadrant(-halfW - 1, -50, halfW - 1, halfH - 1, '#F25022');
+    // Blue - Bottom Left
+    drawQuadrant(-flagW, -50 + halfH + 1, halfW - 1, halfH - 1, '#00A4EF');
+    // Yellow - Bottom Right
+    drawQuadrant(-halfW - 1, -50 + halfH + 1, halfW - 1, halfH - 1, '#FFB900');
 
     ctx.restore();
   }
 }
 
-// Init
+// Initialize
 const initPet = () => {
-  // Clean up NEW pet instance
+  // Cleanup any existing instances
   if (window.pet) {
     if (window.pet.canvas) window.pet.canvas.remove();
-    window.pet.isActive = false;
     if (window.pet.animationId) cancelAnimationFrame(window.pet.animationId);
   }
-  // Clean up OLD voxel pet instance (if remains from HMR)
   if (window.voxelPet) {
     if (window.voxelPet.canvas) window.voxelPet.canvas.remove();
-    window.voxelPet.isActive = false;
     window.voxelPet = null;
   }
 
-  console.log('🦄 Initializing SmoothPet...');
-  window.pet = new SmoothPet();
+  console.log('🐱‍👤🦄 Initializing NinjaCat Pet...');
+  window.pet = new NinjaCatPet();
 };
 
 if (document.readyState === 'loading') {

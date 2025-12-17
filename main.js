@@ -311,7 +311,7 @@ function setupPriceTicker() {
             const change24h = pair.priceChange.h24;
             const isPositive = change24h >= 0;
             changeEl.textContent = (isPositive ? '+' : '') + change24h.toFixed(2) + '%';
-            changeWrap.className = 'ticker-item ticker-change ' + (isPositive ? 'positive' : 'negative');
+            changeWrap.className = 'pb-item pb-change ' + (isPositive ? 'positive' : 'negative');
 
             // Market Cap (FDV)
             if (mcapEl) {

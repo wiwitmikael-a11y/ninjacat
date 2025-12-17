@@ -43,20 +43,35 @@
       <a href="#tokenomics">Stats</a>
       <a href="#community">Join</a>
     </div>
-
-    <!-- Header Price Ticker (Compact) -->
-    <div class="header-ticker" id="priceTicker">
-      <div class="ht-item">
-        <span class="ht-label">NINJACAT:</span>
-        <span class="ht-value" id="tickerPrice">Loading...</span>
-      </div>
-      <div class="ht-item ht-change" id="tickerChangeWrap">
-        <span class="ht-value" id="tickerChange">---</span>
-      </div>
-    </div>
-
     <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
   </nav>
+
+  <!-- Sticky Price Bar (Below Header) -->
+  <div class="price-bar" id="priceBar">
+    <div class="price-bar-content">
+      <div class="pb-item pb-main">
+        <span class="pb-icon">🐱‍👤</span>
+        <span class="pb-label">NINJACAT</span>
+        <span class="pb-value" id="tickerPrice">Loading...</span>
+      </div>
+      <div class="pb-item pb-change" id="tickerChangeWrap">
+        <span class="pb-label">24h</span>
+        <span class="pb-value" id="tickerChange">---</span>
+      </div>
+      <div class="pb-item">
+        <span class="pb-label">MCap</span>
+        <span class="pb-value" id="tickerMcap">---</span>
+      </div>
+      <div class="pb-item">
+        <span class="pb-label">Vol</span>
+        <span class="pb-value" id="tickerVolume">---</span>
+      </div>
+      <a href="https://dexscreener.com/solana/E4FDbGBgFmk8BRkmfkGK5wUr4YzSqUyfmFHtgdVvpump" target="_blank"
+        class="pb-chart-link">
+        📈 Chart
+      </a>
+    </div>
+  </div>
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
