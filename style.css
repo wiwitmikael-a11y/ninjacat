@@ -1227,10 +1227,7 @@ img {
   height: 24px;
 }
 
-.ticker-change.positive .ht-value,
-.ht-change .ht-value {
-  /* Reuse existing ticker colors but apply to header */
-}
+
 
 /* Handle colors dynamically via JS class, but simplify for header */
 .header-ticker .positive {
