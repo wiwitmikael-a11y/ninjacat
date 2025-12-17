@@ -141,115 +141,67 @@ class NinjaCatPet {
     drawUnicorn() {
         const ctx = this.ctx;
 
-        // === UNICORN BODY (White, rearing pose) ===
+        // === UNICORN (White, rearing pose) ===
+        // Drawing order: back legs → body → tail → neck/head → front legs (TOP)
 
-        // Draw FRONT legs first (they're behind body visually)
+        // 1. BACK LEGS (behind everything, on ground)
         ctx.fillStyle = '#E8E8E8';
         ctx.strokeStyle = '#CCC';
         ctx.lineWidth = 2;
 
-        // Left front leg (raised high in air)
+        // Left back leg
         ctx.beginPath();
-        ctx.moveTo(10, 10);
-        ctx.lineTo(-5, -40);
-        ctx.lineTo(5, -45);
-        ctx.lineTo(20, 10);
+        ctx.moveTo(-15, 50);
+        ctx.lineTo(-25, 105 + this.legFrame);
+        ctx.lineTo(-12, 105 + this.legFrame);
+        ctx.lineTo(-5, 50);
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
-        // Left front hoof
+        // Left back hoof
         ctx.beginPath();
-        ctx.ellipse(0, -47, 8, 5, -0.3, 0, Math.PI * 2);
+        ctx.ellipse(-18, 108 + this.legFrame, 10, 6, 0, 0, Math.PI * 2);
         ctx.fillStyle = '#333';
         ctx.fill();
 
-        // Right front leg (raised high in air)
-        ctx.fillStyle = '#F0F0F0';
+        // Right back leg
+        ctx.fillStyle = '#D8D8D8';
         ctx.beginPath();
-        ctx.moveTo(25, 5);
-        ctx.lineTo(30, -50);
-        ctx.lineTo(40, -52);
-        ctx.lineTo(35, 5);
+        ctx.moveTo(-35, 45);
+        ctx.lineTo(-50, 100 - this.legFrame);
+        ctx.lineTo(-38, 100 - this.legFrame);
+        ctx.lineTo(-25, 45);
         ctx.closePath();
         ctx.fill();
-        ctx.strokeStyle = '#DDD';
+        ctx.strokeStyle = '#BBB';
         ctx.stroke();
-        // Right front hoof
+        // Right back hoof
         ctx.beginPath();
-        ctx.ellipse(35, -55, 8, 5, 0.2, 0, Math.PI * 2);
+        ctx.ellipse(-44, 103 - this.legFrame, 10, 6, 0, 0, Math.PI * 2);
         ctx.fillStyle = '#333';
         ctx.fill();
 
-        // Body (oval, tilted up for rearing)
+        // 2. BODY (covers back leg connections)
         ctx.beginPath();
-        ctx.ellipse(0, 25, 50, 32, -0.25, 0, Math.PI * 2);
+        ctx.ellipse(0, 30, 50, 35, -0.2, 0, Math.PI * 2);
         ctx.fillStyle = '#FAFAFA';
         ctx.fill();
         ctx.strokeStyle = '#E0E0E0';
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Draw BACK legs after body (so they show in front)
-        ctx.fillStyle = '#F5F5F5';
-        ctx.strokeStyle = '#DDD';
-        ctx.lineWidth = 2;
-
-        // Left back leg (on ground)
-        ctx.beginPath();
-        ctx.moveTo(-20, 45);
-        ctx.lineTo(-30, 100 + this.legFrame);
-        ctx.lineTo(-18, 100 + this.legFrame);
-        ctx.lineTo(-10, 45);
-        ctx.closePath();
-        ctx.fill();
-        ctx.stroke();
-        // Left back hoof
-        ctx.beginPath();
-        ctx.ellipse(-24, 103 + this.legFrame, 10, 6, 0, 0, Math.PI * 2);
-        ctx.fillStyle = '#333';
-        ctx.fill();
-
-        // Right back leg (on ground)
-        ctx.fillStyle = '#E8E8E8';
-        ctx.beginPath();
-        ctx.moveTo(-40, 40);
-        ctx.lineTo(-55, 95 - this.legFrame);
-        ctx.lineTo(-43, 95 - this.legFrame);
-        ctx.lineTo(-30, 40);
-        ctx.closePath();
-        ctx.fill();
-        ctx.strokeStyle = '#CCC';
-        ctx.stroke();
-        // Right back hoof
-        ctx.beginPath();
-        ctx.ellipse(-49, 98 - this.legFrame, 10, 6, 0, 0, Math.PI * 2);
-        ctx.fillStyle = '#333';
-        ctx.fill();
-
-        // Tail (flowing golden)
+        // 3. TAIL (flowing golden)
         const tailColors = ['#FFD700', '#FFA500', '#FF8C00'];
         for (let i = 0; i < 5; i++) {
             const wave = Math.sin(this.maneWave + i * 0.5) * 8;
             ctx.beginPath();
-            ctx.moveTo(-50, 35);
-            ctx.quadraticCurveTo(-75 + wave, 50 + i * 10, -95 + wave, 65 + i * 15);
+            ctx.moveTo(-48, 40);
+            ctx.quadraticCurveTo(-70 + wave, 55 + i * 10, -90 + wave, 70 + i * 15);
             ctx.strokeStyle = tailColors[i % 3];
             ctx.lineWidth = 7 - i;
             ctx.lineCap = 'round';
             ctx.stroke();
         }
-
-        // Neck (curved up)
-        ctx.beginPath();
-        ctx.moveTo(30, -5);
-        ctx.quadraticCurveTo(45, -30, 50, -55);
-        ctx.quadraticCurveTo(55, -60, 55, -55);
-        ctx.quadraticCurveTo(60, -25, 45, -5);
-        ctx.closePath();
-        ctx.fillStyle = '#FAFAFA';
-        ctx.fill();
-        ctx.strokeStyle = '#E5E5E5';
-        ctx.stroke();
 
         // Head
         ctx.beginPath();
@@ -308,6 +260,43 @@ class NinjaCatPet {
             ctx.lineCap = 'round';
             ctx.stroke();
         }
+
+        // === FRONT LEGS - DRAWN LAST (on top, raised in air!) ===
+        ctx.fillStyle = '#FAFAFA';
+        ctx.strokeStyle = '#DDD';
+        ctx.lineWidth = 2;
+
+        // Left front leg (raised)
+        ctx.beginPath();
+        ctx.moveTo(15, 20);
+        ctx.lineTo(-5, -30);
+        ctx.lineTo(8, -35);
+        ctx.lineTo(28, 20);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        // Left front hoof
+        ctx.beginPath();
+        ctx.ellipse(2, -38, 10, 7, -0.3, 0, Math.PI * 2);
+        ctx.fillStyle = '#333';
+        ctx.fill();
+
+        // Right front leg (raised higher)
+        ctx.fillStyle = '#F0F0F0';
+        ctx.beginPath();
+        ctx.moveTo(30, 15);
+        ctx.lineTo(25, -40);
+        ctx.lineTo(40, -45);
+        ctx.lineTo(45, 15);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#DDD';
+        ctx.stroke();
+        // Right front hoof
+        ctx.beginPath();
+        ctx.ellipse(33, -48, 10, 7, 0.2, 0, Math.PI * 2);
+        ctx.fillStyle = '#333';
+        ctx.fill();
     }
 
     drawCat() {
