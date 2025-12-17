@@ -94,6 +94,13 @@ class SmoothPet {
     this.frame++;
   }
 
+  animate() {
+    if (!this.canvas) return;
+    this.update();
+    this.draw();
+    this.animationId = requestAnimationFrame(() => this.animate());
+  }
+
   draw() {
     const ctx = this.ctx;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
